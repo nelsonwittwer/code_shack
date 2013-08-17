@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%= partial "header" %>
+  <body>
+    <div class="container">
+      <div class="site">
+
+        <%= partial "logo" %>
+
+        <div class="row">
+          <div class="col-md-2">
+
+          </div>
+          <div class="col-md-10">
+            <br />
+            <br />
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%= partial "footer" %>
+
+    <%= partial "scripts" %>
+  </body>
+</html>
