@@ -26,9 +26,9 @@ require 'source/github_style_titles.rb'
 # page "/path/to/file.html", :layout => :otherlayout
 #
 # A path which all have the same layout
-# with_layout :admin do
-#   page "/admin/*"
-# end
+with_layout :rspec_guide do
+  page "/guides/rspec/*"
+end
 
 # Proxy (fake) files
 # page "/this-page-has-no-template.html", :proxy => "/template-file.html" do

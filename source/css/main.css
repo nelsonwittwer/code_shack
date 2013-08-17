@@ -39,8 +39,9 @@ body{
   font-family: 'Droid Sans', sans-serif;
 }
 
-p{
+p, ul, ol{
   font-size:18px;
+  line-height:150%;
 }
 
 a{
@@ -67,6 +68,6 @@ a:hover{
 /*
 /*****************************************************************************/
 
-.footer{
-  padding-top:30px;
+footer{
+  padding-top:50px;
 }
