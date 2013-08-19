@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Test Dummy Intro</title>
+    <meta name="description" content="Nelson Wittwer Blog">
+    <meta name="author" content="Nelson Wittwer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <!-- Le styles -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/css/markdown.css" rel="stylesheet" type="text/css">
+    <link href="/css/main.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+
+    <!--[if lt IE 9]>
+      <script src="/js/dist/html5shiv.js"></script>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+      <link rel="stylesheet" type="text/css" media="all" href="/css/ie8.css" />
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="site">
+
+                <div class="header">
+          <div class="row">
+            <div class="col-md-4 col-md-offset-5">
+              <img src="/images/logo.png" alt="code shack baby logo." id="logo" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-md-offset-4">
+              <h1 class="title" id="site_title"><a class ="text-center" href="/">code shack, baby.</a></h1>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-3">
+            <h2>RSpec Guide</h2>
+            <ul>
+              <li><a href="/guides/rspec/intro.html">Intro</a></li>
+              <li><a href="/guides/rspec/terminology.html">Terminology</a></li>
+              <li><a href="#">Basics</a></li>
+              <li><a href="/guides/rspec/what-you-should-test.html">What You Should Test</a></li>
+              <li><a href="#">Factories</a></li>
+              <li><a href="#">The Mighty Stub</a></li>
+            </ul>
+          </div>
+          <div class="col-md-8">
+            
+<h1><a id="test-dummy-intro" class="anchor"></a>Test Dummy Intro</h1>
+
+<p>If you haven&rsquo;t felt some sort of religious guilt for not learning to
+test your code yet, you either haven&rsquo;t spent enough time in the ruby
+community to know the error of your ways, or your soul is beyond saving.</p>
+
+<p>Tests are important. I know what&rsquo;s it like to be a new developer and say
+something along the lines of, &ldquo;I just want to get my code working, tests
+make that process slower.&rdquo; That was me not too long ago. It&rsquo;s time to
+buckle down, put on our big kid pants, and learn how to correctly and
+effectively test our code. As we&rsquo;ll soon find out, testing first
+actually helps you code faster as you&rsquo;ll find your code actually works
+and you&rsquo;ll spend less time debugging.</p>
+
+<h3><a id="testing-whats-the-point-bro" class="anchor"></a>Testing? What&rsquo;s the Point, Bro?</h3>
+
+<p>If you are one of those who doesn&rsquo;t quite know why you test, let me give
+you a quick primer. There are many different opinions out there as to why you should test.
+<a href="https://twitter.com/garybernhardt">Gary Hernhardt</a> has one of my
+favorite explanations. According to his almighty experience, there are
+three main purposes for testing:</p>
+
+<ol>
+<li>prevent regression</li>
+<li>prevent fear</li>
+<li>prevent bad design</li>
+</ol>
+
+<h3><a id="preventing-regression" class="anchor"></a>Preventing Regression</h3>
+
+<p>Regression, just like it sounds, means your code is going backward not
+forward. The magic thing of having tests for all of your code, is you&rsquo;ll
+know if changing something broke something that you already busted your
+butt to write. </p>
+
+<h3><a id="prevent-fear" class="anchor"></a>Prevent Fear</h3>
+
+<p>This point goes hand in hand with the previous, you can add/modify code
+with confidence knowing you&rsquo;ll have a pretty good indicator that your
+code still works. I&rsquo;ve met many people in the development world who are
+all kinds of nervous to write and release code, mainly because they had
+no automated way of knowing if their changes broke all the things.</p>
+
+<p>Specs are really handy dandy when you are refactoring lots
+of code. You can make your refactor generally know if your code still
+works by having passing tests.</p>
+
+<h3><a id="prevent-bad-design" class="anchor"></a>Prevent Bad Design</h3>
+
+<p>If you are writing specs correctly, you are almost forced to make good
+design decisions. You&rsquo;ll find your code is much more modular and well
+structured. Future you and future developers who inherit your code will
+praise your name for testing. </p>
+
+<p>Pretty cool, eh? Check out <a href="http://www.youtube.com/watch?v=RAxiiRPHS9k">Gary&rsquo;s full presentation</a> if you need further brain washing.</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer> <!-- Footer -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-2">
+        <p><small>copyright 2013 - code shack, baby.</small></p>
+      </div>
+      <div class="col-md-2">
+        <a href="https://twitter.com/NelsonWittwer">@nelsonwittwer</a>
+      </div>
+      <div class="col-md-2">
+        <a href="https://github.com/nelsonwittwer">My Github</a>
+      </div>
+    </div>
+  </div>
+</footer> <!-- End Footer -->
+
+
+    <script src="//code.jquery.com/jquery.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+
+  </body>
+</html>
