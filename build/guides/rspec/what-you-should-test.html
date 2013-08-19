@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>What You Should Test</title>
+    <meta name="description" content="Nelson Wittwer Blog">
+    <meta name="author" content="Nelson Wittwer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <!-- Le styles -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/css/markdown.css" rel="stylesheet" type="text/css">
+    <link href="/css/main.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+
+    <!--[if lt IE 9]>
+      <script src="/js/dist/html5shiv.js"></script>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+      <link rel="stylesheet" type="text/css" media="all" href="/css/ie8.css" />
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="site">
+
+                <div class="header">
+          <div class="row">
+            <div class="col-md-4 col-md-offset-5">
+              <img src="/images/logo.png" alt="code shack baby logo." id="logo" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-md-offset-4">
+              <h1 class="title" id="site_title"><a class ="text-center" href="/">code shack, baby.</a></h1>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-3">
+            <h2>RSpec Guide</h2>
+            <ul>
+              <li><a href="/guides/rspec/intro.html">Intro</a></li>
+              <li><a href="/guides/rspec/terminology.html">Terminology</a></li>
+              <li><a href="#">Basics</a></li>
+              <li><a href="/guides/rspec/what-you-should-test.html">What You Should Test</a></li>
+              <li><a href="#">Factories</a></li>
+              <li><a href="#">The Mighty Stub</a></li>
+            </ul>
+          </div>
+          <div class="col-md-8">
+            
+<h1><a id="what-you-should-test" class="anchor"></a>What You Should Test</h1>
+
+<p>This question sparks holy wars. I&rsquo;ll tread lightly here. This section
+largely comes from <a href="http://www.confreaks.com/videos/2452-railsconf2013-the-magic-tricks-of-testing">this stellar rails conf talk on the
+matter</a>
+so when someone questions this opinion, make sure you lean on Sandi&rsquo;s
+testing expertise, not mine. She has much more nerd cred than I.</p>
+
+<h2><a id="what-makes-a-solid-unit-test" class="anchor"></a>What Makes a Solid Unit Test?</h2>
+
+<p>You&rsquo;ll want to think of unit tests as stages of the assembly line. You
+want to test that the materials going into a black box are properly
+converted to what they need to become. In the above mentioned talk,
+Sandi drew out this diagram to explain what needs to be tested where:</p>
+
+<table><thead>
+<tr>
+<th>Message</th>
+<th>Query</th>
+<th>Command</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>incoming</td>
+<td><strong>Assert Result</strong></td>
+<td><strong>Assert direct public side effects</strong></td>
+</tr>
+<tr>
+<td>sent to self</td>
+<td>ignore</td>
+<td>ignore</td>
+</tr>
+<tr>
+<td>outgoing</td>
+<td>ignore</td>
+<td><strong>Expect to send</strong></td>
+</tr>
+</tbody></table>
+
+<h2><a id="query-vs-command" class="anchor"></a>Query vs Command</h2>
+
+<h2><a id="incoming-messages" class="anchor"></a>Incoming Messages</h2>
+
+<p>Incoming messages are like the raw materials going into the magic box.
+Let&rsquo;s take a look at them.</p>
+
+<h2><a id="sent-to-self" class="anchor"></a>Sent to Self</h2>
+
+<p>There general rule of thumb is you do not test messages sent to self. In
+other words, you don&rsquo;t test private methods. You may have heard the
+phrase test functionality, not implementation. Not testing private
+methods essentially means you have the freedom to change how you
+implemented the black box to turn inputs into outputs. You should be
+able to find better ways to making that transformation in the future,
+and you should be able to do so without breaking tests. </p>
+
+<h2><a id="outgoing" class="anchor"></a>Outgoing</h2>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer> <!-- Footer -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-2">
+        <p><small>copyright 2013 - code shack, baby.</small></p>
+      </div>
+      <div class="col-md-2">
+        <a href="https://twitter.com/NelsonWittwer">@nelsonwittwer</a>
+      </div>
+      <div class="col-md-2">
+        <a href="https://github.com/nelsonwittwer">My Github</a>
+      </div>
+    </div>
+  </div>
+</footer> <!-- End Footer -->
+
+
+    <script src="//code.jquery.com/jquery.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+
+  </body>
+</html>
