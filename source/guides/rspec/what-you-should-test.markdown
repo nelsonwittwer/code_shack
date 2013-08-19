@@ -30,7 +30,7 @@ Let's take a look at them.
 ## Sent to Self
 There general rule of thumb is you do not test messages sent to self. In
 other words, you don't test private methods. You may have heard the
-phrase test functionality, not implementation. Not testing private
+phrase test interface, not implementation. Not testing private
 methods essentially means you have the freedom to change how you
 implemented the black box to turn inputs into outputs. You should be
 able to find better ways to making that transformation in the future,
