@@ -30,6 +30,14 @@ with_layout :rspec_guide do
   page "/guides/rspec/*"
 end
 
+#Blog options
+#activate :blog do |blog|
+  #blog.taglink = "guides/:tag.html"
+  #blog.paginate = true
+  #blog.page_link = "p:num"
+  #blog.per_page = 20
+#end
+
 # Proxy (fake) files
 # page "/this-page-has-no-template.html", :proxy => "/template-file.html" do
 #   @which_fake_page = "Rendering a fake page with a variable"

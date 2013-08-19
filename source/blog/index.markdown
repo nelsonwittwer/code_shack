@@ -1,5 +1,6 @@
 ---
 title: Obligitory Introduction
+tags: blog
 ---
 
 # Obligitory Introduction
