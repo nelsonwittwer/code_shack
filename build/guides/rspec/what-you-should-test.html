@@ -54,10 +54,8 @@
             <ul>
               <li><a href="/guides/rspec/intro.html">Intro</a></li>
               <li><a href="/guides/rspec/terminology.html">Terminology</a></li>
-              <li><a href="#">Basics</a></li>
               <li><a href="/guides/rspec/what-you-should-test.html">What You Should Test</a></li>
-              <li><a href="#">Factories</a></li>
-              <li><a href="#">The Mighty Stub</a></li>
+              <li><a href="/guides/rspec/factories.html">Factories</a></li>
             </ul>
           </div>
           <div class="col-md-8">
@@ -103,16 +101,91 @@ Sandi drew out this diagram to explain what needs to be tested where:</p>
 
 <h2><a id="query-vs-command" class="anchor"></a>Query vs Command</h2>
 
+<p>Sandi talks about how there are two types of messages that code will
+make, and depending on the type of code, your testing behavior will
+change. Query means it is looking something up, and does not modify
+anything. Command methods will modify attributes or variables.</p>
+
+<h4><a id="query-method" class="anchor"></a>Query Method</h4>
+<pre class="highlight ruby"><span class="k">class </span><span class="nc">Waiter</span>
+  <span class="n">attr_accessors</span> <span class="ss">:ratings</span>
+
+  <span class="nf">..</span><span class="o">.</span>
+
+  <span class="k">def </span><span class="nf">average_rating</span>
+    <span class="n">sum_of_ratings</span> <span class="o">=</span> <span class="n">ratings</span><span class="nf">.inject</span> <span class="p">{</span> <span class="o">|</span><span class="n">sum</span><span class="p">,</span> <span class="n">rating</span><span class="o">|</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">rating</span> <span class="p">}</span>
+    <span class="n">sum_of_ratings</span> <span class="o">/</span> <span class="n">ratings</span><span class="nf">.count</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre>
+<p>This message does not make any modifications to the user object, it just
+calculates the average rating a given waiter has received. </p>
+
+<h4><a id="command-method" class="anchor"></a>Command Method</h4>
+<pre class="highlight ruby"><span class="k">class </span><span class="nc">Waiter</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:hourly_rate</span>
+  <span class="nf">..</span><span class="o">.</span>
+
+  <span class="k">def </span><span class="nf">set_hourly_rate</span><span class="p">(</span><span class="n">new_rate</span><span class="p">)</span>
+    <span class="vi">@hourly_rate</span> <span class="o">=</span> <span class="n">new_rate</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+<p>This method obviously will modify the current waiter&rsquo;s role, making this
+message a command rather than a query.</p>
+
+<p>Now that we understand the differences between query and command
+messages, let&rsquo;s dive in and figure out how we should test each type in
+these scenarios Sandi has laid out:</p>
+
 <h2><a id="incoming-messages" class="anchor"></a>Incoming Messages</h2>
 
-<p>Incoming messages are like the raw materials going into the magic box.
-Let&rsquo;s take a look at them.</p>
+<p>An incoming message is essentially any method that gets 
+called on your object. We wont worry about how they are called, 
+because we&rsquo;ll see later that those are examples of outgoing messages.</p>
+
+<p>Looking at Sandi&rsquo;s matrix, you&rsquo;ll notice that incoming messages are the
+only place where you will actually assert values. </p>
+
+<h4><a id="query-messages" class="anchor"></a>Query Messages</h4>
+
+<p>What really matters when testing a query message, is that the
+result is what you are expecting. In the above mentioned scenario, we
+want to make sure that the <code>average_rating</code> method returns the
+waiter&rsquo;s average rating:</p>
+<pre class="highlight ruby"><span class="n">describe</span> <span class="no">Waiter</span> <span class="k">do</span>
+  <span class="n">context</span> <span class="s1">'#average_rating'</span> <span class="k">do</span>
+    <span class="n">let</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">{</span> <span class="no">User</span><span class="nf">.new</span><span class="p">(</span><span class="ss">:ratings</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="o">]</span> <span class="p">}</span>
+    <span class="n">it</span> <span class="s2">&quot;should calculate waiter's average rating&quot;</span> <span class="k">do</span>
+      <span class="n">user</span><span class="nf">.average_rating.should</span> <span class="n">eq</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+<h4><a id="command-messages" class="anchor"></a>Command Messages</h4>
+
+<p>Looking at our above mentioned example for a command message, we&rsquo;ll be
+testing the method <code>set_hourly_rate</code>. </p>
+<pre class="highlight ruby"><span class="n">describe</span> <span class="no">Waiter</span> <span class="k">do</span>
+  <span class="n">context</span> <span class="s1">'#set_hourly_rate'</span> <span class="k">do</span>
+    <span class="n">let</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">{</span> <span class="no">User</span><span class="nf">.new</span> <span class="p">}</span>
+    <span class="n">it</span> <span class="s2">&quot;should set the hourly rate base on the input&quot;</span> <span class="k">do</span>
+      <span class="n">user</span><span class="nf">.set_hourly_rate</span><span class="p">(</span><span class="mi">15</span><span class="o">.</span><span class="mi">75</span><span class="p">)</span>
+      <span class="n">user</span><span class="nf">.hourly_rate.should</span> <span class="n">eq</span><span class="p">(</span><span class="mi">15</span><span class="o">.</span><span class="mi">75</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+<p>The rule here is to test direct public side effects. It&rsquo;s this class&#39;
+responsibility to assert the value here. As you see, it is pretty
+straight forward.</p>
 
 <h2><a id="sent-to-self" class="anchor"></a>Sent to Self</h2>
 
 <p>There general rule of thumb is you do not test messages sent to self. In
 other words, you don&rsquo;t test private methods. You may have heard the
-phrase test functionality, not implementation. Not testing private
+phrase test the interface, not the implementation. Not testing private
 methods essentially means you have the freedom to change how you
 implemented the black box to turn inputs into outputs. You should be
 able to find better ways to making that transformation in the future,
