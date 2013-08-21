@@ -22,15 +22,96 @@ sent to self | ignore | ignore
 outgoing | ignore | **Expect to send**
 
 ## Query vs Command
+Sandi talks about how there are two types of messages that code will
+make, and depending on the type of code, your testing behavior will
+change. Query means it is looking something up, and does not modify
+anything. Command methods will modify attributes or variables.
+
+#### Query Method
+
+```ruby
+class Waiter
+  attr_accessors :ratings
+  
+  ...
+
+  def average_rating
+    sum_of_ratings = ratings.inject { |sum, rating| sum + rating }
+    sum_of_ratings / ratings.count
+  end
+
+end
+```
+
+This message does not make any modifications to the user object, it just
+calculates the average rating a given waiter has received. 
+
+#### Command Method
+
+```ruby
+class Waiter
+  attr_accessor :hourly_rate
+  ...
+  
+  def set_hourly_rate(new_rate)
+    @hourly_rate = new_rate
+  end
+end
+```
+This method obviously will modify the current waiter's role, making this
+message a command rather than a query.
+
+Now that we understand the differences between query and command
+messages, let's dive in and figure out how we should test each type in
+these scenarios Sandi has laid out:
 
 ## Incoming Messages
-Incoming messages are like the raw materials going into the magic box.
-Let's take a look at them.
+An incoming message is essentially any method that gets 
+called on your object. We wont worry about how they are called, 
+because we'll see later that those are examples of outgoing messages.
+
+Looking at Sandi's matrix, you'll notice that incoming messages are the
+only place where you will actually assert values. 
+#### Query Messages
+What really matters when testing a query message, is that the
+result is what you are expecting. In the above mentioned scenario, we
+want to make sure that the ```average_rating``` method returns the
+waiter's average rating:
+
+```ruby
+describe Waiter do
+  context '#average_rating' do
+    let(:user) { User.new(:ratings => [3, 4, 5] }
+    it "should calculate waiter's average rating" do
+      user.average_rating.should eq(4)
+    end
+  end
+end
+```
+
+#### Command Messages
+Looking at our above mentioned example for a command message, we'll be
+testing the method ```set_hourly_rate```. 
+
+```ruby
+describe Waiter do
+  context '#set_hourly_rate' do
+    let(:user) { User.new }
+    it "should set the hourly rate base on the input" do
+      user.set_hourly_rate(15.75)
+      user.hourly_rate.should eq(15.75)
+    end
+  end
+end
+```
+The rule here is to test direct public side effects. It's this class'
+responsibility to assert the value here. As you see, it is pretty
+straight forward.
 
 ## Sent to Self
 There general rule of thumb is you do not test messages sent to self. In
 other words, you don't test private methods. You may have heard the
-phrase test functionality, not implementation. Not testing private
+phrase test the interface, not the implementation. Not testing private
 methods essentially means you have the freedom to change how you
 implemented the black box to turn inputs into outputs. You should be
 able to find better ways to making that transformation in the future,
