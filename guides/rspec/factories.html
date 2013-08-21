@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>factories</title>
+    <meta name="description" content="Nelson Wittwer Blog">
+    <meta name="author" content="Nelson Wittwer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <!-- Le styles -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/css/markdown.css" rel="stylesheet" type="text/css">
+    <link href="/css/main.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+
+    <!--[if lt IE 9]>
+      <script src="/js/dist/html5shiv.js"></script>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+      <link rel="stylesheet" type="text/css" media="all" href="/css/ie8.css" />
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="site">
+
+                <div class="header">
+          <div class="row">
+            <div class="col-md-4 col-md-offset-5">
+              <img src="/images/logo.png" alt="code shack baby logo." id="logo" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-md-offset-4">
+              <h1 class="title" id="site_title"><a class ="text-center" href="/">code shack, baby.</a></h1>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-3">
+            <h2>RSpec Guide</h2>
+            <ul>
+              <li><a href="/guides/rspec/intro.html">Intro</a></li>
+              <li><a href="/guides/rspec/terminology.html">Terminology</a></li>
+              <li><a href="/guides/rspec/what-you-should-test.html">What You Should Test</a></li>
+              <li><a href="/guides/rspec/factories.html">Factories</a></li>
+            </ul>
+          </div>
+          <div class="col-md-8">
+            
+<h1><a id="factories-n-such" class="anchor"></a>Factories &lsquo;n Such</h1>
+
+<p>When I first started testing, I had no idea why I should use factories.
+In fact, I thought they were just another hurdle to start testing, so I
+said &#39;screw it,&rsquo; and started tested without them. I didn&rsquo;t make it long before I
+realized that my tests were 2-3x the size of my classes. Learn from my
+experience. Friends don&rsquo;t let friends test without factories.</p>
+
+<h2><a id="factories-done-right" class="anchor"></a>Factories, Done Right</h2>
+
+<p>The promise of using factories, like
+<a href="https://github.com/thoughtbot/factory_girl">FactoryGirl</a>, is the
+ability to be able to setup your tests with minimal effort, and to be
+able test your app&rsquo;s database integration if desired. </p>
+
+<p>When I first started testing, I used Factories because the <a href="http://ruby.railstutorial.org/">Rails
+Tutorial</a> told me it was a good idea,
+but I wasn&rsquo;t doing it correctly at all. Let&rsquo;s take a look at my early
+sins by examining my <a href="https://github.com/nelsonwittwer/disrupt">first app I
+wrote.</a> To give quick
+background on the app, the idea was to build a social network for people
+to discuss startups. </p>
+
+<h3><a id="sloppy-comment-spec-setup" class="anchor"></a>Sloppy Comment Spec Setup</h3>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'spec_helper'</span>
+
+<span class="n">describe</span> <span class="no">Comment</span> <span class="k">do</span>
+
+  <span class="n">before</span> <span class="k">do</span>
+    <span class="no">User</span><span class="nf">.delete_all</span>
+    <span class="vi">@startup</span><span class="o">=</span><span class="no">FactoryGirl</span><span class="nf">.create</span><span class="p">(</span><span class="ss">:startup</span><span class="p">)</span>
+    <span class="vi">@user</span><span class="o">=</span><span class="no">FactoryGirl</span><span class="nf">.create</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span>
+    <span class="vi">@topic</span> <span class="o">=</span> <span class="no">Topic</span><span class="nf">.new</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;Topic&quot;</span><span class="p">)</span>
+    <span class="vi">@discussion</span> <span class="o">=</span> <span class="vi">@startup</span><span class="nf">.discussions.new</span><span class="p">(</span><span class="ss">user_id: </span><span class="vi">@user</span><span class="nf">.id</span><span class="p">,</span> <span class="ss">topic_id: </span><span class="vi">@topic</span><span class="nf">.id</span><span class="p">)</span>
+    <span class="vi">@comment</span><span class="o">=</span><span class="vi">@discussion</span><span class="nf">.comments.new</span><span class="p">(</span><span class="ss">text: </span><span class="s2">&quot;this is a comment&quot;</span><span class="p">,</span> <span class="ss">user_id: </span><span class="vi">@user</span><span class="nf">.id</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="nf">..</span><span class="o">.</span>
+<span class="k">end</span>
+</pre>
+<p>Alright class, who can tell me where I dropped the ball with this spec&rsquo;s
+setup?  You don&rsquo;t even
+have to look at my factory file to see how bad it is going to be.
+Besides the horrific styling implored here, here is a list of things I
+see I screwed up on:</p>
+
+<ol>
+<li>User.delete_all? WTF???</li>
+<li>Blatant lack of associations. Fail.</li>
+<li>Inconsistent setup. I guess Factories are only needed for startups
+and users&hellip;</li>
+</ol>
+
+<p>So ya, I dropped the ball in at least three places. Awesome town. At
+least I can say it was my first app, right?
+Let&rsquo;s add to my public shame by looking at the factories:</p>
+
+<h4><a id="gold-diggin-factorygirl-bad-example" class="anchor"></a>Gold Diggin&#39; FactoryGirl (Bad Example)</h4>
+<pre class="highlight ruby"><span class="no">FactoryGirl</span><span class="nf">.define</span> <span class="k">do</span>
+  <span class="n">factory</span> <span class="ss">:startup</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
+    <span class="n">s</span><span class="nf">.sequence</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span>     <span class="p">{</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="s2">&quot;Starupt </span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+    <span class="n">s</span><span class="nf">.sequence</span><span class="p">(</span><span class="ss">:url</span><span class="p">)</span>    <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="s2">&quot;startup</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">.com&quot;</span><span class="p">}</span>
+    <span class="n">s</span><span class="nf">.description</span> <span class="s2">&quot;startup from heaven&quot;</span>
+    <span class="n">s</span><span class="nf">.twitter</span> <span class="s2">&quot;@startupzz&quot;</span>
+    <span class="n">s</span><span class="nf">.crunchbase</span> <span class="s2">&quot;crunchbase.com/companies/startupzz&quot;</span>
+  <span class="k">end</span>
+
+  <span class="n">factory</span> <span class="ss">:user</span> <span class="k">do</span>
+    <span class="n">sequence</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="s2">&quot;User</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">}</span>
+    <span class="n">sequence</span><span class="p">(</span><span class="ss">:email</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="s2">&quot;User</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">@example.com&quot;</span> <span class="p">}</span>
+    <span class="n">password</span>    <span class="s2">&quot;foobar&quot;</span>
+    <span class="n">password_confirmation</span> <span class="s2">&quot;foobar&quot;</span>
+    <span class="n">role_id</span> <span class="mi">3</span>
+  <span class="k">end</span>
+
+  <span class="n">factory</span> <span class="ss">:discussion</span> <span class="k">do</span>
+  <span class="k">end</span>
+
+  <span class="n">factory</span> <span class="ss">:comment</span> <span class="k">do</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+<p>This Factory will do nothing but take my money when I&rsquo;m in need.
+Let&rsquo;s clean this baby up.</p>
+
+<h4><a id="clean-up" class="anchor"></a>Clean Up</h4>
+
+<p>First, does anyone see why I had to nuke all the users before each test,
+but not any other table? Anyone? Anyone? Bueller? I would take a guess
+and say that my user factory is missing a key piece in it&rsquo;s block, an
+iterator. Sequences are pretty cool in that they allow you to test your
+database constraints, in this case I had a uniqueness constraint setup
+on the User&rsquo;s name and email fields. So I could create several users
+with this factory with the same call and it would make sure these fields
+were unique, but only if I had done it correctly. Let&rsquo;s fix that up real
+quick:</p>
+<pre class="highlight ruby"><span class="n">factory</span> <span class="ss">:user</span> <span class="k">do</span> <span class="o">|</span><span class="n">u</span><span class="o">|</span>
+  <span class="n">u</span><span class="nf">.sequence</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="s2">&quot;User</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">}</span>
+  <span class="n">u</span><span class="nf">.sequence</span><span class="p">(</span><span class="ss">:email</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="s2">&quot;User</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">@example.com&quot;</span> <span class="p">}</span>
+  <span class="n">u</span><span class="nf">.password</span>    <span class="s2">&quot;foobar&quot;</span>
+  <span class="n">u</span><span class="nf">.password_confirmation</span> <span class="s2">&quot;foobar&quot;</span>
+  <span class="n">u</span><span class="nf">.role_id</span> <span class="mi">3</span>
+<span class="k">end</span>
+</pre>
+<p>Next, let&rsquo;s take a look at associations. The cool thing about using
+associations with FactoryGirl, is that you can leverage your previous
+factories and their sequences. Let&rsquo;s build out our discussion and
+comment factories:</p>
+<pre class="highlight ruby">  <span class="n">factory</span> <span class="ss">:discussion</span> <span class="k">do</span> <span class="o">|</span><span class="n">d</span><span class="o">|</span>
+    <span class="n">d</span><span class="nf">.sequence</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="s2">&quot;Title </span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">}</span>
+    <span class="n">d</span><span class="nf">.user</span>
+    <span class="n">d</span><span class="nf">.startup</span>
+  <span class="k">end</span>
+
+  <span class="n">factory</span> <span class="ss">:comment</span> <span class="k">do</span>
+    <span class="n">user</span>
+    <span class="n">discussion</span>
+  <span class="k">end</span>
+</pre>
+<p>Taking a look at <a href="https://github.com/thoughtbot/factory_girl/wiki/Usage">FactoryGirl&rsquo;s
+documentation</a>,
+you&rsquo;ll see that putting an active_recrod association in factories is as
+simple as I&rsquo;ve illustrated above, just name the factory in the factory
+block. Easy peasy, lemon squeezy.</p>
+
+<p>Lastly, now that we have properly setup our factories, let&rsquo;s revisit how
+my tests were setup:</p>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'spec_helper'</span>
+
+<span class="n">describe</span> <span class="no">Comment</span> <span class="k">do</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">{</span> <span class="no">FactoryGirl</span><span class="nf">.build</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:startup</span><span class="p">)</span> <span class="p">{</span> <span class="no">FactoryGirl</span><span class="nf">.build</span><span class="p">(</span><span class="ss">:startup</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:discussion</span><span class="p">)</span> <span class="p">{</span> <span class="no">FactoryGirl</span><span class="nf">.build</span><span class="p">(</span><span class="ss">:discussion</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:comment</span><span class="p">)</span> <span class="p">{</span> <span class="no">FactoryGirl</span><span class="nf">.build</span><span class="p">(</span><span class="ss">:comment</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">end</span>
+</pre>
+<p>Well, I think that goes a long way. Now I am actually testing correct
+uniqueness constraints on my user table, and I have my active_record
+relationships baked into my factories. Finally, I don&rsquo;t have to manually
+provide my variables with attributes, as that is handled by my
+factories. I think we&rsquo;ve done good work here today. Let&rsquo;s all use
+factories a little smarter moving forward.</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer> <!-- Footer -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-2">
+        <p><small>copyright 2013 - code shack, baby.</small></p>
+      </div>
+      <div class="col-md-2">
+        <a href="https://twitter.com/NelsonWittwer">@nelsonwittwer</a>
+      </div>
+      <div class="col-md-2">
+        <a href="https://github.com/nelsonwittwer">My Github</a>
+      </div>
+    </div>
+  </div>
+</footer> <!-- End Footer -->
+
+
+    <script src="//code.jquery.com/jquery.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+
+  </body>
+</html>
