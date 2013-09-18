@@ -1,6 +1,7 @@
 ---
 title: Obligitory Introduction
-tags: blog
+date: 2013/9/3
+tags: career, newbie
 ---
 
 # Obligitory Introduction

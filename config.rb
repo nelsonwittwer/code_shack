@@ -30,13 +30,28 @@ with_layout :rspec_guide do
   page "/guides/rspec/*"
 end
 
+with_layout :deployment_guide do
+  page "/guides/deployment/*"
+end
+
 #Blog options
-#activate :blog do |blog|
-  #blog.taglink = "guides/:tag.html"
-  #blog.paginate = true
-  #blog.page_link = "p:num"
-  #blog.per_page = 20
-#end
+activate :blog do |blog|
+  blog.permalink = ":year-:month-:day-:title.html"
+  blog.sources = "posts/:title.html"
+  blog.paginate = true
+  blog.page_link = "p:num"
+  blog.per_page = 20
+  blog.default_extension = ".markdown"
+  blog.taglink = "categories/:tag.html"
+  blog.layout = "layout"
+  blog.summary_separator = /(READMORE)/
+  blog.summary_length = 250
+  blog.year_link = ":year.html"
+  blog.month_link = ":year/:month.html"
+  blog.day_link = ":year/:month/:day.html"
+end
+
+activate :directory_indexes
 
 # Proxy (fake) files
 # page "/this-page-has-no-template.html", :proxy => "/template-file.html" do
