@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%= partial "header" %>
+  <body>
+    <div class="container">
+      <div class="site">
+
+        <%= partial "logo" %>
+
+        <div class="row">
+          <div class="col-md-3">
+            <h2>Angular Meets Rails</h2>
+            <ul>
+              <li><a href="/guides/angular_meets_rails/index.html">Intro</a></li>
+              <li><a href="/guides/angular_meets_rails/filters.html">Filters</a></li>
+            </ul>
+          </div>
+          <div class="col-md-8">
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%= partial "footer" %>
+
+    <%= partial "scripts" %>
+  </body>
+</html>

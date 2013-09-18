@@ -26,6 +26,10 @@ require 'source/github_style_titles.rb'
 # page "/path/to/file.html", :layout => :otherlayout
 #
 # A path which all have the same layout
+with_layout :angular_guide do
+  page "/guides/angular_meets_rails/*"
+end
+
 with_layout :rspec_guide do
   page "/guides/rspec/*"
 end
