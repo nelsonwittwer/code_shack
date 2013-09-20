@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="Nelson Wittwer Blog">
+    <meta name="author" content="Nelson Wittwer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <!-- Le styles -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/css/markdown.css" rel="stylesheet" type="text/css">
+    <link href="/css/main.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+
+    <!--[if lt IE 9]>
+      <script src="/js/dist/html5shiv.js"></script>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+      <link rel="stylesheet" type="text/css" media="all" href="/css/ie8.css" />
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="site">
+
+                <div class="header">
+          <div class="row">
+            <div class="col-md-4 col-md-offset-5">
+              <img src="/images/logo.png" alt="code shack baby logo." id="logo" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-md-offset-4">
+              <h1 class="title" id="site_title"><a class ="text-center" href="/">code shack, baby.</a></h1>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-3">
+            <h2>Angular Meets Rails</h2>
+            <ul>
+              <li><a href="/guides/angular_meets_rails/index.html">Intro</a></li>
+              <li><a href="/guides/angular_meets_rails/filters.html">Filters</a></li>
+            </ul>
+          </div>
+          <div class="col-md-8">
+            <hr>
+
+<h2><a id="title-angular-meets-rails-filters" class="anchor"></a>title: Angular Meets Rails: Filters</h2>
+
+<h1><a id="angular-meets-rails-filters" class="anchor"></a>Angular Meets Rails: Filters</h1>
+
+<p>Filters allow you to format the data you display for humans. Since the
+filters are called on the view layer, they are not meant to perform
+business logic, but make it easier for humans to understand the data.</p>
+
+<h2><a id="built-in-filters" class="anchor"></a>Built In Filters</h2>
+
+<p>Angular gives us a lot of built in filters for free.99, let&rsquo;s take a
+look at the currency filter to get an idea of how filters are used:</p>
+<pre class="highlight text">{{ 3.99 | currency }}
+</pre><pre class="highlight text">$3.99
+</pre>
+<p>Pretty cool, eh? As you you might have gathered, the syntax for filters
+asks for the data first (in this case we just have a single number) then
+a pipe, then the name of the filter you&rsquo;d like to use.</p>
+
+<p>Filters can also accept parameters, which would be the third argument.
+You can include as many parameters as you&rsquo;d like, you&rsquo;ll just need to
+seperate them with colons like so:</p>
+<pre class="highlight text">{{ 3.99 | currency | number:0 }}
+</pre><pre class="highlight text">$3
+</pre>
+<h2><a id="build-your-own-filter" class="anchor"></a>Build Your Own Filter</h2>
+
+<p>You can also build your own filters. Let&rsquo;s try this out by converting
+nasty tweenager talk into readable prose. After we do the typical
+Angular setup, we&rsquo;ll want to create a filter on our mainModule, which we
+have named &lsquo;quietFilter.&rsquo; We&rsquo;ll loop through each word and change it
+from all caps to lower case, and then return to result. Pretty straight
+forward stuff. Now, when we take the text from our controller and run it
+through our quietFilter, you&rsquo;ll notice that you no longer want to punch
+something in the jugular. </p>
+
+<h3><a id="indexhtml" class="anchor"></a>index.html</h3>
+<pre class="highlight html"><span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;body</span> <span class="na">ng-app=</span><span class="s">'MainModule'</span> <span class="na">ng-controller=</span><span class="s">&quot;MainController&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>{{ tweenagerTalk | quietFilter }}<span class="nt">&lt;/h1&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;https://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;main.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre>
+<h3><a id="mainjs" class="anchor"></a>main.js</h3>
+<pre class="highlight javascript"><span class="kd">var</span> <span class="nx">mainModule</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'MainModule'</span><span class="p">,</span> <span class="p">[]);</span>
+
+<span class="nx">mainModule</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">'quietFilter'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">quietFilter</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">input</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">words</span> <span class="o">=</span> <span class="nx">input</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">' '</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">words</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">words</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">words</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">toLowerCase</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">words</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">' '</span><span class="p">);</span>
+  <span class="p">};</span>
+  <span class="k">return</span> <span class="nx">quietFilter</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="kd">function</span> <span class="nx">MainController</span><span class="p">(</span><span class="nx">$scope</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">tweenagerTalk</span> <span class="o">=</span> <span class="s1">'I AM A LOUD TWEENAGER'</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+<h3><a id="output-of-indexhtml" class="anchor"></a>Output of Index.html</h3>
+<pre class="highlight text">i am a loud tweenager
+</pre>
+<h2><a id="code-is-on-github" class="anchor"></a>Code is on GitHub</h2>
+
+<p><a href="https://github.com/CodeShackBaby/angular_filters">Quiet Filter Repo</a></p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer> <!-- Footer -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-2">
+        <p><small>copyright 2013 - code shack, baby.</small></p>
+      </div>
+      <div class="col-md-2">
+        <a href="https://twitter.com/NelsonWittwer">@nelsonwittwer</a>
+      </div>
+      <div class="col-md-2">
+        <a href="https://github.com/nelsonwittwer">My Github</a>
+      </div>
+    </div>
+  </div>
+</footer> <!-- End Footer -->
+
+
+    <script src="//code.jquery.com/jquery.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+
+  </body>
+</html>
