@@ -1,7 +1,6 @@
 ---
-title: Angular Meets Rails: Filters
+title: Angular Meets Rails - Filters
 ---
-
 # Angular Meets Rails: Filters
 Filters allow you to format the data you display for humans. Since the
 filters are called on the view layer, they are not meant to perform
