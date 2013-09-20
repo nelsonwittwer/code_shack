@@ -97,7 +97,7 @@ something in the jugular. </p>
 
 <h3><a id="indexhtml" class="anchor"></a>index.html</h3>
 <pre class="highlight html"><span class="nt">&lt;html&gt;</span>
-  <span class="nt">&lt;body</span> <span class="na">ng-app=</span><span class="s">&#39;MainModule&#39;</span> <span class="na">ng-controller=</span><span class="s">&quot;MainController&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;body</span> <span class="na">ng-app=</span><span class="s">'MainModule'</span> <span class="na">ng-controller=</span><span class="s">&quot;MainController&quot;</span><span class="nt">&gt;</span>
     <span class="nt">&lt;h1&gt;</span>{{ tweenagerTalk | quietFilter }}<span class="nt">&lt;/h1&gt;</span>
   <span class="nt">&lt;/body&gt;</span>
 
@@ -106,21 +106,21 @@ something in the jugular. </p>
 <span class="nt">&lt;/html&gt;</span>
 </pre>
 <h3><a id="mainjs" class="anchor"></a>main.js</h3>
-<pre class="highlight javascript"><span class="kd">var</span> <span class="nx">mainModule</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">&#39;MainModule&#39;</span><span class="p">,</span> <span class="p">[]);</span>
+<pre class="highlight javascript"><span class="kd">var</span> <span class="nx">mainModule</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'MainModule'</span><span class="p">,</span> <span class="p">[]);</span>
 
-<span class="nx">mainModule</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">&#39;quietFilter&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<span class="nx">mainModule</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">'quietFilter'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">quietFilter</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">input</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">words</span> <span class="o">=</span> <span class="nx">input</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">words</span> <span class="o">=</span> <span class="nx">input</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">' '</span><span class="p">);</span>
     <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">words</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
       <span class="nx">words</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">words</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">toLowerCase</span><span class="p">()</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="nx">words</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">words</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">' '</span><span class="p">);</span>
   <span class="p">};</span>
   <span class="k">return</span> <span class="nx">quietFilter</span><span class="p">;</span>
 <span class="p">});</span>
 
 <span class="kd">function</span> <span class="nx">MainController</span><span class="p">(</span><span class="nx">$scope</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">$scope</span><span class="p">.</span><span class="nx">tweenagerTalk</span> <span class="o">=</span> <span class="s1">&#39;I AM A LOUD TWEENAGER&#39;</span><span class="p">;</span>
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">tweenagerTalk</span> <span class="o">=</span> <span class="s1">'I AM A LOUD TWEENAGER'</span><span class="p">;</span>
 <span class="p">}</span>
 </pre>
 <h3><a id="output-of-indexhtml" class="anchor"></a>Output of Index.html</h3>

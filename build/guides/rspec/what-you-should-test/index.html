@@ -155,9 +155,9 @@ result is what you are expecting. In the above mentioned scenario, we
 want to make sure that the <code>average_rating</code> method returns the
 waiter&rsquo;s average rating:</p>
 <pre class="highlight ruby"><span class="n">describe</span> <span class="no">Waiter</span> <span class="k">do</span>
-  <span class="n">context</span> <span class="s1">&#39;#average_rating&#39;</span> <span class="k">do</span>
+  <span class="n">context</span> <span class="s1">'#average_rating'</span> <span class="k">do</span>
     <span class="n">let</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">{</span> <span class="no">User</span><span class="nf">.new</span><span class="p">(</span><span class="ss">:ratings</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="o">]</span> <span class="p">}</span>
-    <span class="n">it</span> <span class="s2">&quot;should calculate waiter&#39;s average rating&quot;</span> <span class="k">do</span>
+    <span class="n">it</span> <span class="s2">&quot;should calculate waiter's average rating&quot;</span> <span class="k">do</span>
       <span class="n">user</span><span class="nf">.average_rating.should</span> <span class="n">eq</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
     <span class="k">end</span>
   <span class="k">end</span>
@@ -168,7 +168,7 @@ waiter&rsquo;s average rating:</p>
 <p>Looking at our above mentioned example for a command message, we&rsquo;ll be
 testing the method <code>set_hourly_rate</code>. </p>
 <pre class="highlight ruby"><span class="n">describe</span> <span class="no">Waiter</span> <span class="k">do</span>
-  <span class="n">context</span> <span class="s1">&#39;#set_hourly_rate&#39;</span> <span class="k">do</span>
+  <span class="n">context</span> <span class="s1">'#set_hourly_rate'</span> <span class="k">do</span>
     <span class="n">let</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">{</span> <span class="no">User</span><span class="nf">.new</span> <span class="p">}</span>
     <span class="n">it</span> <span class="s2">&quot;should set the hourly rate base on the input&quot;</span> <span class="k">do</span>
       <span class="n">user</span><span class="nf">.set_hourly_rate</span><span class="p">(</span><span class="mi">15</span><span class="o">.</span><span class="mi">75</span><span class="p">)</span>
